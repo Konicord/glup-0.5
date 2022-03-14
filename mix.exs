@@ -33,8 +33,8 @@ defmodule Glup.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.6"},
-      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix, "~> 1.4.6", override: true},
+      {:phoenix_pubsub, "2.0.0", override: true},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.0"},
       {:phoenix_html, "~> 2.11"},
@@ -47,6 +47,7 @@ defmodule Glup.MixProject do
       {:myxql, ">= 0.4.0"},
       {:comeonin, "~> 5.3"},
       {:pbkdf2_elixir, "~> 1.0"},
+      {:joken, "~> 2.0-rc0"},
       {:dotenv_parser, "~> 2.0"}
     ]
   end
