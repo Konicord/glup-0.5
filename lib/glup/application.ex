@@ -5,15 +5,19 @@ defmodule Glup.Application do
 
   use Application
 
+  @impl true
   def start(_type, _args) do
-    # List all child processes to be supervised
     children = [
       # Start the Ecto repository
       Glup.Repo,
-      # Start the endpoint when the application starts
+      # Start the Telemetry supervisor
+      GlupWeb.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: Glup.PubSub},
+      # Start the Endpoint (http/https)
       GlupWeb.Endpoint
-      # Starts a worker by calling: Glup.Worker.start_link(arg)
-      # {Glup.Worker, arg},
+      # Start a worker by calling: Glup.Worker.start_link(arg)
+      # {Glup.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -24,6 +28,7 @@ defmodule Glup.Application do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
+  @impl true
   def config_change(changed, _new, removed) do
     GlupWeb.Endpoint.config_change(changed, removed)
     :ok

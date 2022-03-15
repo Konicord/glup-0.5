@@ -7,6 +7,7 @@ defmodule Glup.Users do
   alias Glup.Repo
 
   alias Glup.Users.User
+  alias Glup.Token
 
   @doc """
   Returns the list of user.
@@ -110,7 +111,9 @@ defmodule Glup.Users do
     if user != nil do
       pwd = user.password
       if Pbkdf2.verify_pass(user_input_pwd, pwd) do
-        :ok
+        user_data = %{"username" => user_input_name}
+        jwt_token = create_jwt_token(user_data)
+        {:ok, jwt_token}
       else
         :error
       end
@@ -132,5 +135,23 @@ defmodule Glup.Users do
       ""
     end
 
+  end
+
+  def create_jwt_token(user_data) do
+    unix_now = DateTime.utc_now() |> DateTime.to_unix
+    unix_exp_time = unix_now + 3600
+    token_data = user_data |> Map.put("exp", unix_exp_time)
+    {:ok, token, _claims} = Token.generate_and_sign(token_data)
+    token
+  end
+
+  def validate_token(token) do
+    case Token.verify_and_validate(token) do
+      {:ok, claims} ->
+        username = claims["username"]
+        {:ok, username}
+      _ ->
+        :error
+    end
   end
 end

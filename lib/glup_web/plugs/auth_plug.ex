@@ -7,15 +7,14 @@ defmodule GlupWeb.Plugs.AuthPlug do
   def init(options), do: options
 
   def call(conn, _opts) do
-    IO.inspect conn
     allowed_actions = ["/signup", "/signup/"]
 
     if Enum.member?(allowed_actions, conn.request_path) do
       conn
     else
       case Users.validate_user(conn) do
-        :ok ->
-          conn
+        {:ok, jwt} ->
+          assign(conn, :user_details, %{jwt: jwt})
         :error ->
           conn
           |> put_status(:unauthorized)
