@@ -11,8 +11,8 @@ defmodule GlupWeb.UserView do
     %{data: render_one(user, UserView, "user.json")}
   end
 
-  def render("status.json", %{status_code: status_code, attribute: attribute}) do
-    Messages.common_response_msg(status_code, attribute)
+  def render("status.json", %{status_code: status_code, attribute: attribute, data: data}) do
+    Messages.common_response_msg(status_code, attribute, data)
   end
 
   def render("user.json", %{user: user}) do

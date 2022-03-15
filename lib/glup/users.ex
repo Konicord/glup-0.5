@@ -113,7 +113,7 @@ defmodule Glup.Users do
       if Pbkdf2.verify_pass(user_input_pwd, pwd) do
         user_data = %{"username" => user_input_name}
         jwt_token = create_jwt_token(user_data)
-        {:ok, jwt_token}
+        {:ok, jwt_token, user_input_name}
       else
         :error
       end
@@ -124,6 +124,7 @@ defmodule Glup.Users do
   end
 
   def get_user_from_username(username) do
+    username = to_string(username)
     query = from u in User, where: u.username == ^username
     Repo.one(query)
   end

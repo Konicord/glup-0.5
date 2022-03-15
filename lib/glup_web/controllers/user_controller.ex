@@ -42,9 +42,14 @@ defmodule GlupWeb.UserController do
   end
 
   def login(conn, _params) do
+    user_details = conn.assigns.user_details
+    data = %{
+        "username" => user_details[:username],
+        "jwt" => user_details[:jwt]
+      }
     conn
     |> put_status(:ok)
-    |> render("status.json", %{status_code: "SUCCESS", attribute: ""})
+    |> render("status.json", %{status_code: "SUCCESS", attribute: "", data: data})
   end
 
   def signup(conn, params) do
@@ -58,5 +63,9 @@ defmodule GlupWeb.UserController do
       |> put_status(:created)
       |> render("status.json", %{status_code: "SUCCESS", attribute: ""})
     end
+  end
+
+  def test(conn, _params) do
+    send_resp(conn, 200, "Test Success. Authenticated")
   end
 end

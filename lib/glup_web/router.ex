@@ -12,6 +12,11 @@ defmodule GlupWeb.Router do
 
     post "/login", UserController, :login
     post "/signup", UserController, :signup
+    get "/test", UserController, :test
+
+    # CORS
+    options "/login", UserController, :login
+    options "/test", UserController, :test
   end
 
 end
