@@ -6,6 +6,7 @@ defmodule GlupWeb.Plugs.AuthPlug do
 
   def init(options), do: options
 
+  # this is the plug which handles authnetication
   def call(conn, _opts) do
     allowed_actions = ["/signup", "/signup/"]
     cond do

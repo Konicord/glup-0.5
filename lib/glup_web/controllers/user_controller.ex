@@ -41,6 +41,7 @@ defmodule GlupWeb.UserController do
     end
   end
 
+  # Login functionality is handled here
   def login(conn, _params) do
     user_details = conn.assigns.user_details
     data = %{
@@ -52,6 +53,7 @@ defmodule GlupWeb.UserController do
     |> render("status.json", %{status_code: "SUCCESS", attribute: "", data: data})
   end
 
+  # Signup functionality is handled here
   def signup(conn, params) do
     signed_pwd = Users.sign_pwd(params["password"])
     user_params = %{
@@ -65,6 +67,7 @@ defmodule GlupWeb.UserController do
     end
   end
 
+  # Test API functionality is handled here
   def test(conn, _params) do
     send_resp(conn, 200, "Test Success. Authenticated")
   end
