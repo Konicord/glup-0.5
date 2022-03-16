@@ -9,7 +9,7 @@ defmodule Glup.Users.User do
     timestamps()
   end
 
-  @doc false
+  # This function does the validations before inserting data into DB
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:username, :password])
