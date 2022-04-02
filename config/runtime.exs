@@ -25,7 +25,7 @@ config :glup, Glup.Repo,
   password: System.fetch_env!("DATABASE_PASSWORD"),
   hostname: System.fetch_env!("DATABASE_HOSTNAME"),
   database: System.fetch_env!("DATABASE_DATABASE"),
-  show_sensitive_data_on_connection_error: true,
+  show_sensitive_data_on_connection_error: false,
   pool_size: 10
 
 # Start the phoenix server if environment is set and running in a release
