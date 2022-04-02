@@ -14,6 +14,9 @@ defmodule Glup.Users.User do
     user
     |> cast(attrs, [:username, :password])
     |> validate_required([:username, :password])
-    |> unique_constraint(:name, name: :user_username_index, message: "USER_EXISTS_WITH_SAME_USERNAME")
+    |> unique_constraint(:name,
+      name: :user_username_index,
+      message: "USER_EXISTS_WITH_SAME_USERNAME"
+    )
   end
 end

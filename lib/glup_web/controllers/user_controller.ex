@@ -44,10 +44,12 @@ defmodule GlupWeb.UserController do
   # Login functionality is handled here
   def login(conn, _params) do
     user_details = conn.assigns.user_details
+
     data = %{
-        "username" => user_details[:username],
-        "jwt" => user_details[:jwt]
-      }
+      "username" => user_details[:username],
+      "jwt" => user_details[:jwt]
+    }
+
     conn
     |> put_status(:ok)
     |> render("status.json", %{status_code: "SUCCESS", attribute: "", data: data})
@@ -56,10 +58,12 @@ defmodule GlupWeb.UserController do
   # Signup functionality is handled here
   def signup(conn, params) do
     signed_pwd = Users.sign_pwd(params["password"])
+
     user_params = %{
       "username" => params["username"],
       "password" => signed_pwd
     }
+
     with {:ok, %User{} = _user} <- Users.create_user(user_params) do
       conn
       |> put_status(:created)

@@ -11,12 +11,12 @@ defmodule Glup.Users do
 
   @doc """
   Returns the list of user.
-
+  
   ## Examples
-
+  
       iex> list_user()
       [%User{}, ...]
-
+  
   """
   def list_user do
     Repo.all(User)
@@ -24,31 +24,31 @@ defmodule Glup.Users do
 
   @doc """
   Gets a single user.
-
+  
   Raises `Ecto.NoResultsError` if the User does not exist.
-
+  
   ## Examples
-
+  
       iex> get_user!(123)
       %User{}
-
+  
       iex> get_user!(456)
       ** (Ecto.NoResultsError)
-
+  
   """
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
   Creates a user.
-
+  
   ## Examples
-
+  
       iex> create_user(%{field: value})
       {:ok, %User{}}
-
+  
       iex> create_user(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def create_user(attrs \\ %{}) do
     %User{}
@@ -58,15 +58,15 @@ defmodule Glup.Users do
 
   @doc """
   Updates a user.
-
+  
   ## Examples
-
+  
       iex> update_user(user, %{field: new_value})
       {:ok, %User{}}
-
+  
       iex> update_user(user, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def update_user(%User{} = user, attrs) do
     user
@@ -76,15 +76,15 @@ defmodule Glup.Users do
 
   @doc """
   Deletes a User.
-
+  
   ## Examples
-
+  
       iex> delete_user(user)
       {:ok, %User{}}
-
+  
       iex> delete_user(user)
       {:error, %Ecto.Changeset{}}
-
+  
   """
   def delete_user(%User{} = user) do
     Repo.delete(user)
@@ -92,12 +92,12 @@ defmodule Glup.Users do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
-
+  
   ## Examples
-
+  
       iex> change_user(user)
       %Ecto.Changeset{source: %User{}}
-
+  
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
@@ -109,8 +109,10 @@ defmodule Glup.Users do
     user_input_name = body_params["username"]
     user_input_pwd = body_params["password"]
     user = get_user_from_username(user_input_name)
+
     if user != nil do
       pwd = user.password
+
       if Pbkdf2.verify_pass(user_input_pwd, pwd) do
         user_data = %{"username" => user_input_name}
         jwt_token = create_jwt_token(user_data)
@@ -121,7 +123,6 @@ defmodule Glup.Users do
     else
       :error
     end
-
   end
 
   # This function search and return user from the DB
@@ -138,12 +139,11 @@ defmodule Glup.Users do
     else
       ""
     end
-
   end
 
   # This function generates a JWT
   def create_jwt_token(user_data) do
-    unix_now = DateTime.utc_now() |> DateTime.to_unix
+    unix_now = DateTime.utc_now() |> DateTime.to_unix()
     unix_exp_time = unix_now + 3600
     token_data = user_data |> Map.put("exp", unix_exp_time)
     {:ok, token, _claims} = Token.generate_and_sign(token_data)
@@ -156,6 +156,7 @@ defmodule Glup.Users do
       {:ok, claims} ->
         username = claims["username"]
         {:ok, username}
+
       _ ->
         :error
     end

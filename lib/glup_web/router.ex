@@ -2,7 +2,7 @@ defmodule GlupWeb.Router do
   use GlupWeb, :router
 
   pipeline :api do
-    plug CORSPlug, [origin: "*"]
+    plug CORSPlug, origin: "*"
     plug :accepts, ["json"]
     plug GlupWeb.Plugs.AuthPlug
   end
@@ -18,5 +18,4 @@ defmodule GlupWeb.Router do
     options "/login", UserController, :login
     options "/test", UserController, :test
   end
-
 end

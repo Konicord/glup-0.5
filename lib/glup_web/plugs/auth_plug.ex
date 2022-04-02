@@ -9,16 +9,16 @@ defmodule GlupWeb.Plugs.AuthPlug do
   # this is the plug which handles authnetication
   def call(conn, _opts) do
     allowed_actions = ["/signup", "/signup/"]
+
     cond do
       Enum.member?(allowed_actions, conn.request_path) ->
-
         conn
 
       conn.request_path == "/login" or conn.request_path == "/login/" ->
-
         case Users.validate_user(conn) do
           {:ok, jwt, username} ->
             assign(conn, :user_details, %{jwt: jwt, username: username})
+
           :error ->
             conn
             |> put_status(:unauthorized)
@@ -28,15 +28,16 @@ defmodule GlupWeb.Plugs.AuthPlug do
         end
 
       true ->
-
         auth = Plug.Conn.get_req_header(conn, "authorization")
-        token = case auth do
-          [token] ->
-            token
 
-          _ ->
-            ""
-        end
+        token =
+          case auth do
+            [token] ->
+              token
+
+            _ ->
+              ""
+          end
 
         case Users.validate_token(token) do
           {:ok, username} ->
@@ -50,7 +51,5 @@ defmodule GlupWeb.Plugs.AuthPlug do
             |> halt
         end
     end
-
   end
-
 end

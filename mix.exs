@@ -52,7 +52,8 @@ defmodule Glup.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:myxql, ">= 0.4.0"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:joken, "~> 2.0-rc0"}
+      {:joken, "~> 2.0-rc0"},
+      {:dotenv_parser, "~> 2.0"}
     ]
   end
 

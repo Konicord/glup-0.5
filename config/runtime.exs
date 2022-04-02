@@ -7,6 +7,27 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 
+if Config.config_env() == :dev do
+  DotenvParser.load_file(".env")
+end
+
+# load the database variables
+config :glup,
+  env: Config.config_env(),
+  username: System.fetch_env!("DATABASE_USERNAME"),
+  password: System.fetch_env!("DATABASE_PASSWORD"),
+  hostname: System.fetch_env!("DATABASE_HOSTNAME"),
+  database: System.fetch_env!("DATABASE_DATABASE")
+
+# Configure your database
+config :glup, Glup.Repo,
+  username: System.fetch_env!("DATABASE_USERNAME"),
+  password: System.fetch_env!("DATABASE_PASSWORD"),
+  hostname: System.fetch_env!("DATABASE_HOSTNAME"),
+  database: System.fetch_env!("DATABASE_DATABASE"),
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # Start the phoenix server if environment is set and running in a release
 if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
   config :glup, GlupWeb.Endpoint, server: true

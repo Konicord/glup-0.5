@@ -1,5 +1,7 @@
 # Glup
+Backend API for Quendl
 
+## Get started
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

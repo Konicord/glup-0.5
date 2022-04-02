@@ -8,6 +8,7 @@ defmodule Glup.Repo.Migrations.CreateUser do
 
       timestamps()
     end
+
     create unique_index("user", [:username])
   end
 end
